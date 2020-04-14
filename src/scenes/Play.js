@@ -30,13 +30,13 @@ class Play extends Phaser.Scene {
 
         //add spaceship (x3)
         this.ship01 = new Spaceship(this, game.config.width + 192, 132, 'spaceship').setScale(0, 30).setOrigin(0, 0);
-        this.ship01 = new Spaceship(this, game.config.width + 96, 916, 'spaceship').setScale(0, 30).setOrigin(0, 0);
-        this.ship01 = new Spaceship(this, game.config.width, 260, 'spaceship').setScale(0, 30).setOrigin(0, 0);
+        this.ship02 = new Spaceship(this, game.config.width + 96, 916, 'spaceship').setScale(0, 30).setOrigin(0, 0);
+        this.ship03 = new Spaceship(this, game.config.width, 260, 'spaceship').setScale(0, 30).setOrigin(0, 0);
 
         //define keyboard keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
-        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.key.LEFT);
-        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.key.RIGHT);
+        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
         // animation config
         this.anims.create({
