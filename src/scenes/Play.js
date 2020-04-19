@@ -5,29 +5,32 @@ class Play extends Phaser.Scene {
 
     preload() {
         //load images/title sprite
-        this.load.image('rocket', './assets/rocket.png');
-        this.load.image('spaceship', './assets/spaceship.png');
-        this.load.image('smallship', './assets/smallship.png');
-        this.load.image('starfield', './assets/starfield.png');
+        this.load.image('rocket', './assets/harpoon.png');
+        this.load.image('spaceship', './assets/greenfish.png');
+        this.load.image('smallship', './assets/bluefish.png');
+        this.load.image('starfield', './assets/waterfield.png');
 
         // load spritesheet
-        this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
+        this.load.spritesheet('greenfishdead', './assets/greenfishdead.png', {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 6});
+        this.load.spritesheet('bluefishdead', './assets/bluefishdead.png', {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 6});
     }
     create() {
         //create tile sprite
         this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
 
+        /*
         //white rectangle border
         this.add.rectangle(5, 5, 630, 32, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(5, 443, 630, 32, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(5, 5, 32, 455, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(603, 5, 32, 455, 0xFFFFFF).setOrigin(0, 0);
+        */
 
         //green UI background
-        this.add.rectangle(37, 42, 566, 64, 0x00FF00).setOrigin(0, 0);
+        this.add.rectangle(0, 0, 640, 75, 0x6FDFFF).setOrigin(0, 0);
 
         //add rocket (p1)
-        this.p1Rocket = new Rocket(this, game.config.width/2, 435, 'rocket').setScale(0.5, 0.5).setOrigin(0, 0);
+        this.p1Rocket = new Rocket(this, game.config.width/2, 400, 'rocket').setOrigin(0, 0);
 
         //add spaceship (x3)
         this.ship01 = new Spaceship(this, game.config.width + 192, 132, 'spaceship', 0, 30).setOrigin(0, 0);
@@ -42,8 +45,14 @@ class Play extends Phaser.Scene {
 
         // animation config
         this.anims.create({
-            key: 'explode',
-            frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 9, first: 0}),
+            key: 'greendead',
+            frames: this.anims.generateFrameNumbers('greenfishdead', { start: 0, end: 6, first: 0}),
+            frameRate: 30
+        });
+
+        this.anims.create({
+            key: 'bluedead',
+            frames: this.anims.generateFrameNumbers('bluefishdead', { start: 0, end: 6, first: 0}),
             frameRate: 30
         });
 
@@ -54,8 +63,8 @@ class Play extends Phaser.Scene {
         let scoreConfig = {
             fontFamily: 'Courier',
             fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
+            backgroundColor: '#FFFFFF',
+            color: '#000000',
             align: 'right',
             padding: {
                 top: 5,
@@ -63,8 +72,9 @@ class Play extends Phaser.Scene {
             },
             fixedWidth: 100
         }
-        this.scoreLeft = this.add.text(69, 54, this.p1Score, scoreConfig);
+        this.scoreLeft = this.add.text(15, 15, this.p1Score, scoreConfig);
 
+    
         //game over flag
         this.gameOver = false;
 
@@ -88,7 +98,7 @@ class Play extends Phaser.Scene {
         }
 
         // scroll starfield
-        this.starfield.tilePositionX -= 4;
+        //this.starfield.tilePositionX -= 4;
 
         // update game sprites
         if (!this.gameOver) {               
@@ -102,19 +112,19 @@ class Play extends Phaser.Scene {
         // check collisions
         if(this.checkCollision(this.p1Rocket, this.ship01)) {
             this.p1Rocket.reset();
-            this.shipExplode(this.ship01);
+            this.greenDead(this.ship01);
         }
         if (this.checkCollision(this.p1Rocket, this.ship02)) {
             this.p1Rocket.reset();
-            this.shipExplode(this.ship02);
+            this.greenDead(this.ship02);
         }
         if (this.checkCollision(this.p1Rocket, this.ship03)) {
             this.p1Rocket.reset();
-            this.shipExplode(this.ship03);
+            this.greenDead(this.ship03);
         }
         if (this.checkCollision(this.p1Rocket, this.smallship)) {
             this.p1Rocket.reset();
-            this.smallShipExplode(this.smallship);
+            this.blueDead(this.smallship);
         }
     }
 
@@ -130,11 +140,11 @@ class Play extends Phaser.Scene {
         }
     }
 
-    shipExplode(ship) {  
+    greenDead(ship) {  
         ship.alpha = 0;                         // temporarily hide ship
         // create explosion sprite at ship's position
-        let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
-        boom.anims.play('explode');             // play explode animation
+        let boom = this.add.sprite(ship.x, ship.y, 'greenfishdead').setOrigin(0, 0);
+        boom.anims.play('greendead');             // play explode animation
         boom.on('animationcomplete', () => {    // callback after animation completes
             ship.reset();                       // reset ship position
             ship.alpha = 1;                     // make ship visible again
@@ -146,11 +156,11 @@ class Play extends Phaser.Scene {
         this.sound.play('sfx_explosion');
     }
 
-    smallShipExplode(ship) {  
+    blueDead(ship) {  
         ship.alpha = 0;                         // temporarily hide ship
         // create explosion sprite at ship's position
-        let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
-        boom.anims.play('explode');             // play explode animation
+        let boom = this.add.sprite(ship.x, ship.y, 'bluefishdead').setOrigin(0, 0);
+        boom.anims.play('bluedead');             // play explode animation
         boom.on('animationcomplete', () => {    // callback after animation completes
             ship.resetX();                       // reset ship position
             ship.alpha = 1;                     // make ship visible again
