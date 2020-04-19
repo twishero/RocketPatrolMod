@@ -14,7 +14,7 @@ class Play extends Phaser.Scene {
     }
     create() {
         //create tile sprite
-        this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield');
+        this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
 
         //white rectangle border
         this.add.rectangle(5, 5, 630, 32, 0xFFFFFF).setOrigin(0, 0);
@@ -29,9 +29,9 @@ class Play extends Phaser.Scene {
         this.p1Rocket = new Rocket(this, game.config.width/2, 435, 'rocket').setScale(0.5, 0.5).setOrigin(0, 0);
 
         //add spaceship (x3)
-        this.ship01 = new Spaceship(this, game.config.width + 192, 132, 'spaceship').setScale(0, 30).setOrigin(0, 0);
-        this.ship02 = new Spaceship(this, game.config.width + 96, 916, 'spaceship').setScale(0, 30).setOrigin(0, 0);
-        this.ship03 = new Spaceship(this, game.config.width, 260, 'spaceship').setScale(0, 30).setOrigin(0, 0);
+        this.ship01 = new Spaceship(this, game.config.width + 192, 132, 'spaceship', 0, 30).setOrigin(0, 0);
+        this.ship02 = new Spaceship(this, game.config.width + 96, 196, 'spaceship', 0, 20).setOrigin(0, 0);
+        this.ship03 = new Spaceship(this, game.config.width, 260, 'spaceship', 0, 10).setOrigin(0, 0);
 
         //define keyboard keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -97,7 +97,7 @@ class Play extends Phaser.Scene {
         } 
         
         // check collisions
-        if(this.checkCollision(this.p1Rocket, this.ship03)) {
+        if(this.checkCollision(this.p1Rocket, this.ship01)) {
             this.p1Rocket.reset();
             this.shipExplode(this.ship01);
         }
@@ -105,7 +105,7 @@ class Play extends Phaser.Scene {
             this.p1Rocket.reset();
             this.shipExplode(this.ship02);
         }
-        if (this.checkCollision(this.p1Rocket, this.ship01)) {
+        if (this.checkCollision(this.p1Rocket, this.ship03)) {
             this.p1Rocket.reset();
             this.shipExplode(this.ship03);
         }
