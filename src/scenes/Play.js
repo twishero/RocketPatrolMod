@@ -7,6 +7,7 @@ class Play extends Phaser.Scene {
         //load images/title sprite
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('spaceship', './assets/spaceship.png');
+        this.load.image('smallship', './assets/smallship.png');
         this.load.image('starfield', './assets/starfield.png');
 
         // load spritesheet
@@ -32,6 +33,7 @@ class Play extends Phaser.Scene {
         this.ship01 = new Spaceship(this, game.config.width + 192, 132, 'spaceship', 0, 30).setOrigin(0, 0);
         this.ship02 = new Spaceship(this, game.config.width + 96, 196, 'spaceship', 0, 20).setOrigin(0, 0);
         this.ship03 = new Spaceship(this, game.config.width, 260, 'spaceship', 0, 10).setOrigin(0, 0);
+        this.smallship = new Smallship(this, game.config.width + 260, 230, 'smallship', 0, 40).setOrigin(0, 0);
 
         //define keyboard keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -94,6 +96,7 @@ class Play extends Phaser.Scene {
             this.ship01.update();           // update spaceships (x3)
             this.ship02.update();
             this.ship03.update();
+            this.smallship.update();        //update smallship
         } 
         
         // check collisions
@@ -108,6 +111,10 @@ class Play extends Phaser.Scene {
         if (this.checkCollision(this.p1Rocket, this.ship03)) {
             this.p1Rocket.reset();
             this.shipExplode(this.ship03);
+        }
+        if (this.checkCollision(this.p1Rocket, this.smallship)) {
+            this.p1Rocket.reset();
+            this.shipExplode(this.smallship);
         }
     }
 
