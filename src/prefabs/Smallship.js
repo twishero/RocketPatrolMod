@@ -9,14 +9,14 @@ class Smallship extends Phaser.GameObjects.Sprite {
 
     update() {
        // move smallship left
-       this.x -= game.settings.spaceshipSpeed+3;
+       this.x -= game.settings.spaceshipSpeed+1;
        //move smallship up
-       this.y -= game.settings.spaceshipspeed+3;
+       //this.y += game.settings.spaceshipspeed;
        //wraparound screen bounds
        if(this.x <= 0 - this.width) {
            this.resetX();
        }
-       if(this.y <= 0 - this.height) {
+       if(this.y >= 480 + this.height) {
         this.resetY();
        }
     }
@@ -26,6 +26,6 @@ class Smallship extends Phaser.GameObjects.Sprite {
     }
 
     resetY(){
-        this.y = game.config.height;
+        this.y = 0;
     }
 }
